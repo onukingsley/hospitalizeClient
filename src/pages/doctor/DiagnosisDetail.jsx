@@ -678,7 +678,10 @@ const DiagnosisDetailsPage = () => {
                                 <div
                                     key={sale.id}
                                     className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted transition-colors cursor-pointer"
-                                    onClick={() => navigate(`/pharmacy/sales/${sale.id}`)}
+                                    onClick={() => {
+                                        setSelectedDrugModal(sale)
+                                        setShowDrugModal(true)
+                                    }}
                                 >
                                     <div className="flex-1">
                                         <p className="text-sm font-medium">Sale #{sale.id}</p>

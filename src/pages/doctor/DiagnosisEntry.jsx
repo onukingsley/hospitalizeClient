@@ -306,21 +306,22 @@ const DiagnosisEntry = () => {
       test_list : labOrders,
       prescription : isPrescription,
       drug_amount : prescriptions.reduce((total,prescription)=>{
-        return total + parseInt(prescription.unit_price)
+        return total + (parseInt(prescription.unit_price) * parseInt(prescription.quantity))
       },0) || 0,
       drug_items : prescriptions
 
 
     }
 
-    console.log(diagnosisData, 'this is diagnosis data')
+
+
+    console.log(diagnosisData.drug_amount, 'this is diagnosis data')
 
     axiosClient.post('/addDiagnosis', diagnosisData)
         .then(({data})=>{
             console.log(data)
           navigate(`/doctor/patientDetail/${selectedPatient.regID}`)
         }).catch(e=>alert(e))
-
 
   /*  const diagnosis = {
       diagnosisId: generateDiagnosisId(),

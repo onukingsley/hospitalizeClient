@@ -26,7 +26,7 @@ const FinanceDashboard = () => {
   const navigate = useNavigate();
 
   const {totalRevenue,totalConsultation,deptChart,totalDrugSale,totalExpenses,totalLabTest,totalSalary,pnlChart, payments,
-    setPayment,setCreditPayment,setDebitPayment,setRate,setTotalRevenue,setTotalExpenses,setTotalSalary,setTotalConsultation,setTotalDrugSale,setTotalLabTest,setDeptChart,setPnlChart
+    setPayment,setCreditPayment,setDebitPayment,setRate,setTotalRevenue,setTotalExpenses,setTotalSalary,setTotalConsultation,setTotalDrugSale,setTotalLabTest,setDeptChart,setPnlChart,netProfit,setPendingPayment,pendingPayment
   } = paymentStore()
 
   const {setDrugRestockRequest,setDrugSale} = drugStore()
@@ -48,7 +48,8 @@ const FinanceDashboard = () => {
   const { staff } = useStaff();
 
   //const totalRevenue = bills.filter(b => b.paymentStatus === 'paid').reduce((sum, b) => sum + b.amountPaid, 0);
-  const pendingRevenue = bills.filter(b => b.paymentStatus === 'pending').reduce((sum, b) => sum + b.balance, 0);
+  //const pendingRevenue = bills.filter(b => b.paymentStatus === 'pending').reduce((sum, b) => sum + b.balance, 0);
+  const pendingRevenue = pendingPayment?.filter(b => b?.completion_status == 'pending').reduce((sum, b) => sum + parseInt(b.outStanding_balance), 0);
   const totalDrugSales = sales.filter(s => s.paymentStatus === 'paid').reduce((sum, s) => sum + s.amountPaid, 0);
   const totalPurchases = purchases.reduce((sum, p) => sum + p.totalAmount, 0);
   const monthlySalary = staff.reduce((sum, s) => {
@@ -196,7 +197,8 @@ const FinanceDashboard = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard title="Total Revenue" value={parseInt(totalRevenue).toLocaleString()} change={12.5} changeLabel="vs last month" icon={<Banknote className="w-5 h-5" />} color="bg-green-500" />
         <StatCard title="Total Expenses" value={parseInt(totalExpenses).toLocaleString()} change={12.5} changeLabel="vs last month" icon={<Banknote className="w-5 h-5" />} color="bg-red-500" />
-        <StatCard title="Pending Payments" value={pendingRevenue} icon={<AlertCircle className="w-5 h-5" />} color="bg-yellow-500" />
+        <StatCard title="Pending Payments" value={'₦'+pendingRevenue?.toLocaleString()} icon={<AlertCircle className="w-5 h-5" />} color="bg-yellow-500" />
+        <StatCard title="No of pending Payment" value={pendingPayment?.length} icon={<AlertCircle className="w-5 h-5" />} color="bg-yellow-500" />
         <StatCard title="Lab Tests" value={parseInt(totalLabTest).toLocaleString()} icon={<AlertCircle className="w-5 h-5" />} color="bg-yellow-500" />
         <StatCard title="Drug Sales" value={parseInt(totalDrugSale).toLocaleString()} change={8.2} changeLabel="vs last month" icon={<TrendingUp className="w-5 h-5" />} color="bg-blue-500" />
         <StatCard title="Consultation" value={parseInt(totalConsultation).toLocaleString()} change={8.2} changeLabel="vs last month" icon={<TrendingUp className="w-5 h-5" />} color="bg-blue-500" />
@@ -261,16 +263,13 @@ const FinanceDashboard = () => {
             </div>
             <div className="flex justify-between items-center p-3 bg-red-50 rounded-lg">
               <span className="text-sm font-medium">Total Expenses</span>
-              <span className="text-sm font-bold text-red-600">{totalPurchases + monthlySalary}</span>
+              <span className="text-sm font-bold text-red-600">{totalExpenses}</span>
             </div>
             <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
               <span className="text-sm font-medium">Net Profit</span>
-              <span className="text-sm font-bold text-blue-600">{totalRevenue - totalPurchases - monthlySalary}</span>
+              <span className="text-sm font-bold text-blue-600">{netProfit}</span>
             </div>
-            <div className="flex justify-between items-center p-3 bg-yellow-50 rounded-lg">
-              <span className="text-sm font-medium">Pending Collections</span>
-              <span className="text-sm font-bold text-yellow-600">{pendingRevenue}</span>
-            </div>
+
           </div>
         </Card>
 

@@ -285,7 +285,7 @@ const PharmacyPatientDetailsPage = () => {
                                 <div className="mt-2 space-y-1 flex-1">
                                     <p className="text-xs text-muted-foreground flex items-center gap-1">
                                         <Stethoscope className="w-3 h-3" />
-                                        <span>Pharm. { sale.pharmasist.user.name|| 'Unknown'}</span>
+                                        <span>Pharm. { sale.pharmasist?.user?.name|| 'Unknown'}</span>
                                     </p>
                                     <p className="text-xs text-muted-foreground flex items-center gap-1">
                                         <Stethoscope className="w-3 h-3" />

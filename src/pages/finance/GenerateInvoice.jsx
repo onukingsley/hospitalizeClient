@@ -134,7 +134,12 @@ const GenerateInvoice = () => {
 
     const getTotal = (arr)=>{
         const total = arr.reduce((acc, item)=>{
-            return acc + parseInt(item.payment.amount)
+            console.log(item)
+            if (item?.payment?.amount){
+                return acc + parseInt(item?.payment?.amount)
+            }else {
+                return 0
+            }
         },0)
         setTotal(total)
     }
@@ -379,7 +384,7 @@ const GenerateInvoice = () => {
                         onClick={() => {
                             console.log(item)
                             setInvoice((prev)=>{
-                                const filteredArr = prev.filter((p)=> p.payment.id != item.payment.id)
+                                const filteredArr = prev.filter((p)=> p?.payment?.id != item?.payment?.id)
                                 getTotal(filteredArr)
 
                               return filteredArr
@@ -465,7 +470,7 @@ const GenerateInvoice = () => {
                             console.log(item)
                             setInvoice((prev)=>{
                                 if (prev?.length >0){
-                                    const isExist = prev.some((p)=>p.payment.id == item.payment.id)
+                                    const isExist = prev.some((p)=>p?.payment?.id == item?.payment?.id)
                                     console.log(isExist)
 
                                     if (!isExist){

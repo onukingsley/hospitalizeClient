@@ -50,11 +50,12 @@ import {
     Loader2,
     Eye,
     Plus,
-    Minus,
+    Minus, ArrowLeft,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import axiosClient from '../../service/axiosClient.js';
 import { paymentStore, diagnosisStore, labStore, drugStore } from '../../store/store.jsx';
+import MessageModal from "../../components/modals/MessageModal.jsx";
 
 const PaymentPage = () => {
     const navigate = useNavigate();
@@ -76,6 +77,9 @@ const PaymentPage = () => {
     const [paymentMethod, setPaymentMethod] = useState('cash');
     const [paymentAmount, setPaymentAmount] = useState(0);
 
+    const [message, setMessage] = useState('')
+    const [showMessageDialog, setShowMessageDialog] = useState(false)
+
     // Fetch patient data
     const handleSearchPatient = async () => {
         if (!searchRegID.trim()) {
@@ -94,6 +98,10 @@ const PaymentPage = () => {
                 setLabTest(response.data.data.labTest)
                // await fetchPatientDiagnoses(searchRegID);
                 toast.success('Patient found successfully');
+                if (response.data.data.patient.patient.enrollment_status == 'pending'){
+                    setMessage('Incomplete Enrollment Payment for this Patient')
+                    setShowMessageDialog(true)
+                }
 
             } else {
                 toast.error('Patient not found');
@@ -182,6 +190,12 @@ const PaymentPage = () => {
     const handlePayment = async () => {
         if (!selectedPayment) return;
 
+        if (selectedPatient.patient.enrollment_status == 'pending'){
+            setMessage('Incomplete Enrollment Payment for this Patient')
+            setShowMessageDialog(true)
+            return;
+        }
+
         if (paymentType == 'lab'){
             const payload  = {
                 labTest_id : selectedPayment.id,
@@ -192,6 +206,8 @@ const PaymentPage = () => {
             axiosClient.post('/updateLabPayment', payload)
                 .then(({data})=>{
                     alert(data.message)
+                    setShowPaymentModal(false)
+
                 }).catch(e=> alert(e))
 
 
@@ -206,6 +222,7 @@ const PaymentPage = () => {
             axiosClient.post('/updateDrugSales', payload)
                 .then(({data})=>{
                     alert(data.message)
+                    setShowPaymentModal(false)
                 }).catch(e=> alert(e))
 
 
@@ -220,6 +237,7 @@ const PaymentPage = () => {
             axiosClient.post('/updateConsultation', payload)
                 .then(({data})=>{
                     alert(data.message)
+                    setShowPaymentModal(false)
                 }).catch(e=> alert(e))
 
 
@@ -329,6 +347,7 @@ const PaymentPage = () => {
                 className="flex items-center justify-between p-4 rounded-lg border hover:shadow-md transition-all cursor-pointer hover:border-primary/30"
                 onClick={() => openPaymentModal(item, type)}
             >
+
                 <div className="flex items-start gap-4">
                     <div className="p-2 rounded-lg bg-primary/10">
                         {icon}
@@ -355,7 +374,7 @@ const PaymentPage = () => {
                     </div>
                 </div>
                 <div className="text-right">
-                    <p className="text-lg font-bold text-primary">{formatCurrency(amount)}</p>
+                    <p className="text-lg font-bold text-primary">₦{parseInt(amount).toLocaleString()}</p>
                     <Button
                         size="sm"
                         variant="outline"
@@ -389,6 +408,8 @@ const PaymentPage = () => {
 
     return (
         <div className="space-y-6">
+
+            <MessageModal message={message} showMessage={showMessageDialog} setShowMessage={setShowMessageDialog} setMessage={setMessage}/>
             {/* Page Header */}
             <PageHeader
                 title="Payment Collection"
@@ -463,6 +484,17 @@ const PaymentPage = () => {
                                     Total Unpaid: pending
                                 </Badge>
                             </div>*/}
+                            <Button
+                                size="sm"
+                                variant="outline"
+                                className="mt-1"
+                                onClick={(e) => {
+                                  setSelectedPatient(null)
+                                }}
+                            >
+                                <ArrowLeft className="w-4 h-4 mr-1" />
+                                Change Patient
+                            </Button>
                         </div>
                     </Card>
                  {/*   <DiagnosisList items={patientDiagnoses?.length>0 ? patientDiagnoses : [] } />*/}

@@ -13,6 +13,8 @@ const StatCard = ({
                     onClick,
                   }) => {
   const isPositive = change && change > 0;
+  const isValuePositive = value && parseInt(value) >= 0;
+  const isValueNegative = value && parseInt(value) < 0;
   const isNegative = change && change < 0;
 
   return (
@@ -26,7 +28,7 @@ const StatCard = ({
         <div className="flex items-start justify-between">
           <div className="space-y-2">
             <p className="text-sm font-medium text-muted-foreground">{title}</p>
-            <p className="text-2xl font-bold text-foreground">{value}</p>
+            <p className={`text-2xl font-bold ${isValuePositive ? 'text-foreground' : 'text-red-500'}`}>{value}</p>
             {change !== undefined && (
                 <div className="flex items-center gap-1">
                   {isPositive ? (

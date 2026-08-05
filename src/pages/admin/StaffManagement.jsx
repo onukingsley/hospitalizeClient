@@ -7,18 +7,25 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Search, Users, UserPlus, Mail, Phone } from 'lucide-react';
+import {adminUserManagement} from "../../store/store.jsx";
 
 const StaffManagement = () => {
   const { staff, searchStaff } = useStaff();
   const [searchQuery, setSearchQuery] = useState('');
 
+  const {accountants,totalAccountants,doctors,totalDoctors,clerks,totalClerks,nurses,totalNurses,pharmasists,totalPharmasists,labScientists,totalLabScientists,patients,totalPatients} = adminUserManagement()
+
   const filteredStaff = searchQuery ? searchStaff(searchQuery) : staff;
+
+  const handleSearch = ()=>{
+
+  }
 
   return (
     <div className="space-y-6">
       <PageHeader title="Staff Management" subtitle="Manage hospital staff and roles" breadcrumb={[{ label: 'Dashboard', path: '/admin' }, { label: 'Staff Management' }]} actions={<Button><UserPlus className="w-4 h-4 mr-2" />Add Staff</Button>} />
 
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+      {/*<div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         {['admin', 'doctor', 'nurse', 'clerk', 'lab', 'pharmacy', 'finance', 'secretary'].map(role => {
           const count = staff.filter(s => s.role === role).length;
           return (
@@ -28,7 +35,38 @@ const StaffManagement = () => {
             </Card>
           );
         })}
-      </div>
+      </div>*/}
+
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+            <Card className="p-4 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center"><Users className="w-5 h-5 text-primary" /></div>
+                <div><p className="text-xl font-bold">{totalPatients}</p><p className="text-xs text-muted-foreground capitalize">{'Patients'}s</p></div>
+            </Card>
+            <Card className="p-4 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center"><Users className="w-5 h-5 text-primary" /></div>
+                <div><p className="text-xl font-bold">{totalPharmasists}</p><p className="text-xs text-muted-foreground capitalize">{'pharmasists'}s</p></div>
+            </Card>
+            <Card className="p-4 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center"><Users className="w-5 h-5 text-primary" /></div>
+                <div><p className="text-xl font-bold">{totalDoctors}</p><p className="text-xs text-muted-foreground capitalize">{'Patients'}s</p></div>
+            </Card>
+            <Card className="p-4 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center"><Users className="w-5 h-5 text-primary" /></div>
+                <div><p className="text-xl font-bold">{totalNurses}</p><p className="text-xs text-muted-foreground capitalize">{'Nurses'}s</p></div>
+            </Card>
+            <Card className="p-4 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center"><Users className="w-5 h-5 text-primary" /></div>
+                <div><p className="text-xl font-bold">{totalLabScientists}</p><p className="text-xs text-muted-foreground capitalize">{'LabScientists'}s</p></div>
+            </Card>
+            <Card className="p-4 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center"><Users className="w-5 h-5 text-primary" /></div>
+                <div><p className="text-xl font-bold">{totalClerks}</p><p className="text-xs text-muted-foreground capitalize">{'Clerk'}s</p></div>
+            </Card>
+            <Card className="p-4 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center"><Users className="w-5 h-5 text-primary" /></div>
+                <div><p className="text-xl font-bold">{totalAccountants}</p><p className="text-xs text-muted-foreground capitalize">{'Accountant'}s</p></div>
+            </Card>
+        </div>
 
       <Card className="p-4">
         <div className="relative">

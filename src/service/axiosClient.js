@@ -5,6 +5,8 @@ const axiosClient = axios.create({
 
    //baseURL: 'https://192.168.0.90:8000/api/'
    baseURL: 'http://127.0.0.1:8000/api/'
+   //baseURL: ' http://10.91.122.231:8000/api/'
+   //baseURL: 'http://192.168.0.90:8000/api/'
 })
 
 axiosClient.interceptors.request.use((config)=>{

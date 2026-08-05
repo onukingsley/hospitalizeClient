@@ -23,12 +23,13 @@ const AccountingLayout = () => {
         { label: 'Payment Management', path: '/finance/payments', icon: 'Banknote', roles: ['accountant'] },
         { label: 'P&L Analysis', path: '/finance/pl-analysis', icon: 'TrendingUp', roles: ['accountant'] },
         { label: 'Settlements', path: '/finance/settlement', icon: 'TrendingUp', roles: ['accountant'] },
+        { label: 'Patient Enrollment', path: '/finance/enrollment', icon: 'TrendingUp', roles: ['accountant'] },
         { label: 'Patient Invoice', path: '/finance/invoice', icon: 'FileText', roles: ['accountant'] },
-        { label: 'Salary & Allowances', path: '/finance/salary', icon: 'Wallet', roles: ['accountant'] },
+        /*{ label: 'Salary & Allowances', path: '/finance/salary', icon: 'Wallet', roles: ['accountant'] },
         { label: 'Stock Purchases', path: '/finance/purchases', icon: 'ShoppingBag', roles: ['accountant'] },
         { label: 'General Reports', path: '/finance/reports', icon: 'BarChart3', roles: ['accountant'] },
         { label: 'Billing', path: '/finance/billing', icon: 'FileText', roles: ['accountant'] },
-
+*/
     ]
 
     return (

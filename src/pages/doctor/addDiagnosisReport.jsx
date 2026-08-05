@@ -299,7 +299,7 @@ const AddDiagnosisReport = () => {
             test_list : labOrders,
             prescription : isPrescription,
             drug_amount : prescriptions.reduce((total,prescription)=>{
-                return total + parseInt(prescription.unit_price)
+                return total + (parseInt(prescription.unit_price) * parseInt(prescription.quantity))
             },0) || 0,
             drug_items : prescriptions,
             diagnosis_id: searchParams.get('diagnosis_id')

@@ -386,6 +386,22 @@ export const paymentStore = create((set)=>{
         setTotalExpenses:  ((expenses)=>{
             set({totalExpenses: expenses})
         }),
+        totalLabExpenses: null,
+        setTotalLabExpenses:  ((expense)=>{
+            set({totalLabExpenses: expense})
+        }),
+        totalDrugExpenses: null,
+        setTotalDrugExpenses:  ((expenses)=>{
+            set({totalDrugExpenses: expenses})
+        }),
+        netProfit: null,
+        setNetProfit:  ((value)=>{
+            set({netProfit: value})
+        }),
+        grossMargin: null,
+        setGrossMargin:  ((value)=>{
+            set({grossMargin: value})
+        }),
 
         totalDrugSale: null,
         setTotalDrugSale:  ((drugSale)=>{
@@ -396,15 +412,35 @@ export const paymentStore = create((set)=>{
         setTotalLabTest:  ((labTest)=>{
             set({totalLabTest: labTest})
         }),
+        pendingPayment: null,
+        setPendingPayment:  ((payments)=>{
+            set({pendingPayment: payments})
+        }),
 
         totalConsultation: null,
         setTotalConsultation:  ((consultation)=>{
             set({totalConsultation: consultation})
         }),
+        totalEnrollment: null,
+        setTotalEnrollment:  ((enrollment)=>{
+            set({totalEnrollment: enrollment})
+        }),
 
         pnlChart: [],
         setPnlChart:  ((chatData)=>{
             set({pnlChart: chatData})
+        }),
+        labPnlChart: [],
+        setLabPnlChart:  ((chatData)=>{
+            set({labPnlChart: chatData})
+        }),
+        drugPnlChart: [],
+        setDrugPnlChart:  ((chatData)=>{
+            set({drugPnlChart: chatData})
+        }),
+        expensesChart: [],
+        setExpensesChart:  ((chatData)=>{
+            set({expensesChart: chatData})
         }),
 
         deptChart: [],
@@ -740,11 +776,46 @@ export const adminUserManagement = create(
                     })
                 }),
 
+                totalPatients: null,
+                totalNurses: null,
+                totalDoctors: null,
+                totalClerks: null,
+                totalPharmasists: null,
+                totalLabScientists: null,
+                totalAccountants: null,
+
 
                 patients: [],
-                setPatient: (patients)=>{
-                    set({patients: patients})
+                setPatients: (patients,totalPatients)=>{
+                    set({patients: patients, totalPatients: totalPatients})
                 },
+                doctors: [],
+                setDoctors: (data, totalDoctors)=>{
+                    set({doctors: data, totalDoctors:totalDoctors})
+                },
+
+                nurses: [],
+                setNurses: (data, totalNurses)=>{
+                    set({nurses: data, totalNurses: totalNurses})
+                },
+
+                pharmasists: [],
+                setPharmasists: (data, totalPharmasists)=>{
+                    set({pharmasists: data, totalPharmasists:totalPharmasists})
+                },
+                clerks: [],
+                setClerks: (data, totalClerk)=>{
+                    set({clerks: data, totalClerks:totalClerk})
+                },
+                labScientists: [],
+                setLabScientists: (data, total)=>{
+                    set({labScientists: data, totalLabScientists:total})
+                },
+                accountants: [],
+                setAccountants: (data, totalAccountants)=>{
+                    set({accountants: data, totalAccountants:totalAccountants})
+                },
+
                 dailyPatient: [],
                 setDailyPatient: (patients)=>{
                     set({dailyPatient: patients})

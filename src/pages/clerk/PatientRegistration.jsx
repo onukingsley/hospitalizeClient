@@ -10,7 +10,27 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
-import { UserPlus, Save, RotateCcw, Printer } from 'lucide-react';
+import {QRCodeSVG} from 'qrcode.react'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog';
+import {
+  UserPlus,
+  Save,
+  RotateCcw,
+  Printer,
+  QrCodeIcon,
+  CreditCard,
+  Wallet,
+  Banknote,
+  FileText,
+  Loader2, CheckCircle
+} from 'lucide-react';
 import axiosClient from "../../service/axiosClient.js";
 import {paymentStore} from "../../store/store.jsx";
 
@@ -29,6 +49,10 @@ const PatientRegistration = () => {
   const [formData, setFormData] = useState({});
   const [allergyInput, setAllergyInput] = useState('');
   const [selectedRate, setSelectedRate] = useState({});
+  const [selectedToken, setSelectedToken] = useState('');
+  const [selectedURL, setSelectedURL] = useState('');
+  const [showQrModal, setShowQrModal] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const {rates} = paymentStore();
 
   const handleChange = (field, value) => {
@@ -52,6 +76,20 @@ const PatientRegistration = () => {
   const removeAllergy = (allergy) => {
     setFormData(prev => ({ ...prev, allergies: prev.allergies?.filter(a => a !== allergy) || [] }));
   };
+
+  const handleGenerateToken = ()=>{
+    setIsProcessing(true)
+    axiosClient.post('/generateQrToken')
+        .then(({data})=>{
+          setSelectedToken(data.data.token)
+          setSelectedURL(data.data.url)
+          setIsProcessing(false)
+        })
+        .catch((e)=>{
+          console.log(e)
+          setIsProcessing(false)
+        })
+  }
 
   const handleSubmit = (e) => {
 
@@ -118,6 +156,10 @@ const PatientRegistration = () => {
     toast.info('Form reset');
   };
 
+  const handleEnrollment = ()=>{
+
+  }
+
   return (
     <div className="space-y-6">
       <PageHeader
@@ -127,7 +169,8 @@ const PatientRegistration = () => {
         actions={
           <>
             <Button variant="outline" onClick={handleReset}><RotateCcw className="w-4 h-4 mr-2" />Reset</Button>
-            <Button variant="outline"><Printer className="w-4 h-4 mr-2" />Print</Button>
+            <Button variant="outline" onClick={window.print}><Printer className="w-4 h-4 mr-2" />Print</Button>
+            <Button variant="outline" onClick={()=>{setShowQrModal(true); }} ><QrCodeIcon className="w-4 h-4 mr-2" />QR Enrollment</Button>
           </>
         }
       />
@@ -283,6 +326,68 @@ const PatientRegistration = () => {
           <Button type="submit" size="lg"><Save className="w-4 h-4 mr-2" />Register Patient</Button>
         </div>
       </form>
+
+      <Dialog open={showQrModal} onOpenChange={setShowQrModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <CreditCard className="w-5 h-5 text-primary" />
+              Generate Registration Qr Code
+            </DialogTitle>
+            <DialogDescription>
+              {`${selectedURL != '' ? 'Patient should Scan and fill the registration form': 'Click Generate to View QR Code'}`}
+            </DialogDescription>
+          </DialogHeader>
+
+          {selectedURL != '' && (
+              <div className="space-y-4">
+
+                <QRCodeSVG
+                    value={selectedURL}
+                    size={256}
+                    bgColor="#ffffff"
+                    fgColor='#000000'
+                    level= "H"
+
+                />
+
+
+
+
+              </div>
+
+          )}
+          <DialogFooter className="flex flex-col sm:flex-row gap-2">
+            <Button
+                variant="outline"
+                className="w-full sm:w-auto"
+                onClick={() => {
+                  setShowQrModal(false)
+                }}
+            >
+              Cancel
+            </Button>
+            <Button
+                className="w-full sm:w-auto bg-gradient-to-r from-primary to-primary/80"
+                onClick={handleGenerateToken}
+                disabled={isProcessing}
+            >
+              {isProcessing ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Processing...
+                  </>
+              ) : (
+                  <>
+                    <CheckCircle className="w-4 h-4 mr-2" />
+                    Generate Qr
+                  </>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
     </div>
   );
 };

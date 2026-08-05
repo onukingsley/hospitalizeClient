@@ -49,7 +49,7 @@ const AdminDashboard = () => {
 
   const patientStats = {
     total: patients.length,
-    newThisMonth: patients.filter(p => p.registrationDate.startsWith('2025-04')).length,
+    newThisMonth: patients?.filter(p => p?.created_at?.startsWith('2025-04')).length,
     male: patients.filter(p => p.gender === 'male').length,
     female: patients.filter(p => p.gender === 'female').length,
   };

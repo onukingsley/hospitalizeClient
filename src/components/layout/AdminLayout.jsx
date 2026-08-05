@@ -20,6 +20,7 @@ const AdminLayout = () => {
 
     const navLink = [
         { label: 'Dashboard', path: '/admin', icon: 'LayoutDashboard', roles: ['admin'] },
+        { label: 'PnL', path: '/admin/pnl', icon: 'LayoutDashboard', roles: ['admin'] },
         { label: 'Staff', path: '/admin/staff', icon: 'Users', roles: ['admin'] },
         { label: 'Departments', path: '/admin/departments', icon: 'Building2', roles: ['admin'] },
         { label: 'Reports', path: '/admin/reports', icon: 'BarChart3', roles: ['admin'] },

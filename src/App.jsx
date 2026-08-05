@@ -103,6 +103,11 @@ import Settlement from "./pages/finance/Settlement.jsx";
 import SettlementPage from "./pages/finance/Settlement.jsx";
 import GenerateInvoice from "./pages/finance/GenerateInvoice.jsx";
 import InvoiceDetails from "./pages/finance/InvoiceDetails.jsx";
+import QrPatientRegistration from "./pages/clerk/QrPatientRegistration.jsx";
+import PatientEnrollment from "./pages/finance/EnrollmentPayment.jsx";
+import Pnl from "./pages/finance/PnL.jsx";
+import AdminOverview from "./pages/admin/AdminOverview.jsx";
+import AdminPnl from "./pages/admin/AdminPnL.jsx";
 
 function RoleRedirect() {
   const { isAuthenticated, user } = userStore();
@@ -114,9 +119,9 @@ function App() {
   const { user,setDoctor,doctor,setNurse,setClerk,setAccountant,setLabScientist,setPharmasist } = userStore();
   const {setLabStock,setLabRestockRequest,setLabTest,setLabLowStock,setLabPendingStock,setMyLabRestockRequest,setPendingLabRestockRequest,setAllLabTest,setLabOutOfStock} = labStore()
   const {setReport} = UnitReportStore()
-  const {setUsers,setPatient,setStaff,setDailyPatient,setTotalPatient,setnoOfStaff,setApprovedAndPendingStockRequest,setTotalPaidAndUnpaidConsultation,setTotalPaidAndUnpaidDrugSale,setTotalPaidAndUnpaidLabTest,setPendingAndApprovedDrugStock,setApprovedAndPendingLabStock} = adminUserManagement()
+  const {setUsers,setPatient,setStaff,setDailyPatient,setTotalPatient,setnoOfStaff,setApprovedAndPendingStockRequest,setTotalPaidAndUnpaidConsultation,setTotalPaidAndUnpaidDrugSale,setTotalPaidAndUnpaidLabTest,setPendingAndApprovedDrugStock,setApprovedAndPendingLabStock, setPatients,setLabScientists,setClerks,setAccountants,setDoctors,setNurses,setPharmasists} = adminUserManagement()
   const {setAwaitingConsultation,setConsultations, setDailyConsultation, setPendingConsultation, setDiagnosisReport, setDoctorsDiagnosis,setInwardDiagnosis,setOutPatientDiagnosis,setTotalDailyConsultation,setTotalPendingConsultation} = diagnosisStore()
-  const {setPayment,setCreditPayment,setDebitPayment,setRate,setTotalRevenue,setTotalExpenses,setTotalSalary,setTotalConsultation,setTotalDrugSale,setTotalLabTest,setDeptChart,setPnlChart} = paymentStore()
+  const {setPayment,setCreditPayment,setDebitPayment,setRate,setTotalRevenue,setTotalExpenses,setTotalSalary,setTotalConsultation,setTotalDrugSale,setTotalLabTest,setDeptChart,setPnlChart, setLabPnlChart,setDrugPnlChart,setTotalDrugExpenses,setTotalLabExpenses,setNetProfit,setGrossMargin,setExpensesChart,setTotalEnrollment,setPendingPayment} = paymentStore()
   const {setDrugs,setAllDrugSale,setDrugSale,setMyDrugRestockRequest,setPendingDrugRestockRequest,setDrugRestockRequest,setPendingDrugs,setLowStock,setOutOfStock} = drugStore()
   const {setLeaveApplication,setsalaryallowance,setPendingLeaveApplication,setApprovedLeaveApplication,setDeniedLeaveApplication} = salaryLeaveStore()
 
@@ -191,6 +196,16 @@ function App() {
                       setTotalDrugSale(data.data.totalDrugSale)
                       setTotalConsultation(data.data.totalConsultation)
                       setTotalSalary(data.data.totalSalary)
+                      setLabPnlChart(data.data.labPnlChart)
+                      setDrugPnlChart(data.data.drugPnlChart)
+                      setNetProfit(data.data.netProfit)
+                      setTotalLabExpenses(data.data.totalLabExpense)
+                      setTotalDrugExpenses(data.data.totalDrugExpense)
+                      setGrossMargin(data.data.grossMargin)
+                      setExpensesChart(data.data.expensesChart)
+                      setTotalEnrollment(data.data.totalEnrollment)
+                      setPendingPayment(data.data.pendingPayment)
+                      console.log(data.data.pendingPayment)
                   })
 
                   .catch(e=>console.log(e))
@@ -309,7 +324,33 @@ function App() {
                       setTotalPaidAndUnpaidDrugSale(data.paidDrugSalesCount,data.unpaidDrugSalesCount,data.unpaidDrugSales,data.paidDrugSales)
                       setTotalPaidAndUnpaidConsultation(data.paidConsultation,data.unpaidConsultation,data.paidConsultationCount,data.unpaidConsultationCount)
                       setTotalPaidAndUnpaidLabTest(data.paidLabTests,data.unpaidLabTests,data.paidLabTestCount,data.unpaidLabTestsCount)
+                      setPnlChart(data.data.pnlChart)
+                      setDeptChart(data.data.deptChart)
+                      setConsultations(data.data.consultations)
+                      setTotalLabTest(data.data.totalLabTest)
+                      setTotalDrugSale(data.data.totalDrugSale)
+                      setTotalConsultation(data.data.totalConsultation)
+                      setTotalSalary(data.data.totalSalary)
+                      setLabPnlChart(data.data.labPnlChart)
+                      setDrugPnlChart(data.data.drugPnlChart)
+                      setNetProfit(data.data.netProfit)
+                      setTotalLabExpenses(data.data.totalLabExpense)
+                      setTotalDrugExpenses(data.data.totalDrugExpense)
+                      setGrossMargin(data.data.grossMargin)
+                      setExpensesChart(data.data.expensesChart)
+                      setTotalEnrollment(data.data.totalEnrollment)
+                      setPendingPayment(data.data.pendingPayment)
+                      setPayment(data.data.payments)
 
+
+
+                      setPatients(data.data.patient, data.data.totalPatient)
+                      setDoctors(data.data.doctors, data.data.totalDoctor)
+                      setClerks(data.data.clerk, data.data.totalClerk)
+                      setNurses(data.data.nurses, data.data.totalNurses)
+                      setPharmasists(data.data.pharmasist, data.data.totalPharmasist)
+                      setLabScientists(data.data.labScientist, data.data.totalLabScientist)
+                      setAccountants(data.data.accountant, data.data.totalAccountant)
 
 
                   })
@@ -338,6 +379,7 @@ function App() {
 
 
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/qrEnrollment/:id" element={<QrPatientRegistration />} />
 
         <Route element={<ClerkLayout/>}>
           <Route path="/clerk" element={<ClerkDashboard />} />
@@ -423,7 +465,9 @@ function App() {
               <Route path="/finance/invoice" element={<GenerateInvoice />} />
               <Route path="/finance/invoiceDetails" element={<InvoiceDetails />} />
               <Route path="/finance/settlement" element={<SettlementPage />} />
-              <Route path="/finance/pl-analysis" element={<ProfitLossAnalysis />} />
+              <Route path="/finance/enrollment" element={<PatientEnrollment />} />
+              {/*<Route path="/finance/pl-analysis" element={<ProfitLossAnalysis />} />*/}
+              <Route path="/finance/pl-analysis" element={<Pnl />} />
               <Route path="/finance/salary" element={<SalaryAllowances />} />
               <Route path="/finance/purchases" element={<FinanceDashboard />} />
               <Route path="/finance/reports" element={<ProfitLossAnalysis />} />
@@ -433,8 +477,10 @@ function App() {
           </Route>
 
           <Route element={<AdminLayout/>}>
-            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin" element={<AdminOverview />} />
+            {/*<Route path="/admin" element={<AdminDashboard />} />*/}
             <Route path="/admin/staff" element={<StaffManagement />} />
+            <Route path="/admin/pnl" element={<AdminPnl />} />
             <Route path="/admin/departments" element={<AdminDashboard />} />
             <Route path="/admin/reports" element={<AdminDashboard />} />
             <Route path="/admin/config" element={<SettingsPage />} />
