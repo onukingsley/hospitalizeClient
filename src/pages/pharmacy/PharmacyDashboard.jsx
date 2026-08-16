@@ -214,7 +214,7 @@ const PharmacyDashboard = () => {
           <Button variant="ghost" size="sm" onClick={() => navigate('/pharmacy/stock')}><Package className="w-4 h-4 mr-1" />View Stock</Button>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          {pendingDrugs?.slice(0, 8).map(drug => (
+          {pendingDrugs && pendingDrugs?.slice(0, 8).map(drug => (
             <div key={drug.id} className="flex items-center justify-between p-3 border rounded-lg">
               <div>
                 <p className="text-sm font-medium">{drug.name}</p>

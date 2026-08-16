@@ -108,6 +108,12 @@ import PatientEnrollment from "./pages/finance/EnrollmentPayment.jsx";
 import Pnl from "./pages/finance/PnL.jsx";
 import AdminOverview from "./pages/admin/AdminOverview.jsx";
 import AdminPnl from "./pages/admin/AdminPnL.jsx";
+import StaffRegistration from "./pages/admin/StaffRegistration.jsx";
+import StaffEdit from "./pages/admin/StaffEdit.jsx";
+import PatientManagement from "./pages/admin/PatientManagement.jsx";
+import PatientEdit from "./pages/patient/PatientEdit.jsx";
+import AdminDrugStock from "./pages/admin/AdminDrugStock.jsx";
+import AdminLabStock from "./pages/admin/AdminLabStock.jsx";
 
 function RoleRedirect() {
   const { isAuthenticated, user } = userStore();
@@ -119,7 +125,7 @@ function App() {
   const { user,setDoctor,doctor,setNurse,setClerk,setAccountant,setLabScientist,setPharmasist } = userStore();
   const {setLabStock,setLabRestockRequest,setLabTest,setLabLowStock,setLabPendingStock,setMyLabRestockRequest,setPendingLabRestockRequest,setAllLabTest,setLabOutOfStock} = labStore()
   const {setReport} = UnitReportStore()
-  const {setUsers,setPatient,setStaff,setDailyPatient,setTotalPatient,setnoOfStaff,setApprovedAndPendingStockRequest,setTotalPaidAndUnpaidConsultation,setTotalPaidAndUnpaidDrugSale,setTotalPaidAndUnpaidLabTest,setPendingAndApprovedDrugStock,setApprovedAndPendingLabStock, setPatients,setLabScientists,setClerks,setAccountants,setDoctors,setNurses,setPharmasists} = adminUserManagement()
+  const {setUsers,setPatient,setStaff,setDailyPatient,setTotalPatient,setnoOfStaff,setApprovedAndPendingStockRequest,setTotalPaidAndUnpaidConsultation,setTotalPaidAndUnpaidDrugSale,setTotalPaidAndUnpaidLabTest,setPendingAndApprovedDrugStock,setApprovedAndPendingLabStockRequest,setApprovedAndPendingLabStock, setPatients,setLabScientists,setClerks,setAccountants,setDoctors,setNurses,setPharmasists} = adminUserManagement()
   const {setAwaitingConsultation,setConsultations, setDailyConsultation, setPendingConsultation, setDiagnosisReport, setDoctorsDiagnosis,setInwardDiagnosis,setOutPatientDiagnosis,setTotalDailyConsultation,setTotalPendingConsultation} = diagnosisStore()
   const {setPayment,setCreditPayment,setDebitPayment,setRate,setTotalRevenue,setTotalExpenses,setTotalSalary,setTotalConsultation,setTotalDrugSale,setTotalLabTest,setDeptChart,setPnlChart, setLabPnlChart,setDrugPnlChart,setTotalDrugExpenses,setTotalLabExpenses,setNetProfit,setGrossMargin,setExpensesChart,setTotalEnrollment,setPendingPayment} = paymentStore()
   const {setDrugs,setAllDrugSale,setDrugSale,setMyDrugRestockRequest,setPendingDrugRestockRequest,setDrugRestockRequest,setPendingDrugs,setLowStock,setOutOfStock} = drugStore()
@@ -204,7 +210,7 @@ function App() {
                       setGrossMargin(data.data.grossMargin)
                       setExpensesChart(data.data.expensesChart)
                       setTotalEnrollment(data.data.totalEnrollment)
-                      setPendingPayment(data.data.pendingPayment)
+                      setPendingPayment(Object.values(data.data.pendingPayment))
                       console.log(data.data.pendingPayment)
                   })
 
@@ -295,35 +301,50 @@ function App() {
           case 'admin':
               axiosClient.get('/getAdminOverview')
                   .then(({data})=>{
-                     setUsers(data.users)
-                      setStaff(data.allStaff)
-                      setnoOfStaff(data.noOfStaff)
-                      setDrugs(data.drugStock)
-                      setPendingDrugs(data.pendingDrugStock)
-                      setPayment(data.payments)
-                      setDrugSale(data.drugSales)
-                      setLabTest(data.labTests)
-                      setConsultations(data.consultations)
-                      setDrugRestockRequest(data.stockRequest)
-                      setsalaryallowance(data.salary)
-                      setReport(data.unitReport)
-                      setRate(data.hospitalRates)
-                      setCreditPayment(data.revenue)
-                      setDebitPayment(data.expenses)
-                      setTotalRevenue(data.totalRevenue)
-                      setTotalExpenses(data.totalExpenses)
-                      setLeaveApplication(data.leaveApplication)
-                      setPendingLeaveApplication(data.pendingLeaveApplication)
-                      setDeniedLeaveApplication(data.deniedLeaveApplication)
-                      setApprovedLeaveApplication(data.ApprovedLeaveApplication)
-                      setApprovedAndPendingStockRequest(data.pendingStockRequest,data.approvedStockRequest)
-                      setApprovedAndPendingLabStock(data.approvedLabStock,data.pendingLabStock)
-                      setPendingAndApprovedDrugStock(data.pendingDrugStock,data.approvedDrugStock)
-                      setInwardDiagnosis(data.inwardPatient)
-                      setOutPatientDiagnosis(data.outPatient)
-                      setTotalPaidAndUnpaidDrugSale(data.paidDrugSalesCount,data.unpaidDrugSalesCount,data.unpaidDrugSales,data.paidDrugSales)
-                      setTotalPaidAndUnpaidConsultation(data.paidConsultation,data.unpaidConsultation,data.paidConsultationCount,data.unpaidConsultationCount)
-                      setTotalPaidAndUnpaidLabTest(data.paidLabTests,data.unpaidLabTests,data.paidLabTestCount,data.unpaidLabTestsCount)
+                     setUsers(data.data.users)
+                      setStaff(data.data.allStaff)
+                      setnoOfStaff(data.data.noOfStaff)
+
+
+                      setDrugs(data.data.drugStock)
+                      setPendingDrugs(data.data.pendingDrugStock)
+                      setDrugSale(data.data.drugSales)
+                      setDrugRestockRequest(data.data.stockRequest)
+                      setApprovedAndPendingStockRequest(Object.values(data.data.pendingDrugStockRequest),Object.values(data.data.approvedDrugStockRequest))
+                      setPendingAndApprovedDrugStock(Object.values(data.data.pendingDrugStock),Object.values(data.data.approvedDrugStock))
+                      setOutOfStock(Object.values(data.data.outOfStock))
+                      setLowStock(Object.values(data.data.lowStock))
+
+
+
+
+                      setLabTest(data.data.labTests)
+                      setConsultations(data.data.consultations)
+                      setApprovedAndPendingLabStock(Object.values(data.data.approvedLabStock),Object.values(data.data.pendingLabStock))
+                      console.log(Object.values(data.data.approvedLabStock),Object.values(data.data.pendingLabStock))
+                      setApprovedAndPendingLabStockRequest(Object.values(data.data.pendingLabStockRequest), Object.values(data.data.approvedLabStockRequest))
+
+
+
+                      setsalaryallowance(data.data.salary)
+                      setReport(data.data.unitReport)
+                      setRate(data.data.hospitalRates)
+                      setLeaveApplication(data.data.leaveApplication)
+                      setPendingLeaveApplication(data.data.pendingLeaveApplication)
+                      setDeniedLeaveApplication(data.data.deniedLeaveApplication)
+                      setApprovedLeaveApplication(data.data.ApprovedLeaveApplication)
+
+                      setPayment(data.data.payments)
+                      setCreditPayment(data.data.revenue)
+                      setDebitPayment(data.data.expenses)
+                      setTotalRevenue(data.data.totalRevenue)
+                      setTotalExpenses(data.data.totalExpenses)
+
+                      setInwardDiagnosis(data.data.inPatient)
+                      setOutPatientDiagnosis(data.data.outPatient)
+                      setTotalPaidAndUnpaidDrugSale(data.data.paidDrugSalesCount,data.unpaidDrugSalesCount,data.unpaidDrugSales,data.paidDrugSales)
+                      setTotalPaidAndUnpaidConsultation(data.data.paidConsultation,data.unpaidConsultation,data.paidConsultationCount,data.unpaidConsultationCount)
+                      setTotalPaidAndUnpaidLabTest(data.data.paidLabTests,data.unpaidLabTests,data.paidLabTestCount,data.unpaidLabTestsCount)
                       setPnlChart(data.data.pnlChart)
                       setDeptChart(data.data.deptChart)
                       setConsultations(data.data.consultations)
@@ -344,13 +365,13 @@ function App() {
 
 
 
-                      setPatients(data.data.patient, data.data.totalPatient)
-                      setDoctors(data.data.doctors, data.data.totalDoctor)
-                      setClerks(data.data.clerk, data.data.totalClerk)
-                      setNurses(data.data.nurses, data.data.totalNurses)
-                      setPharmasists(data.data.pharmasist, data.data.totalPharmasist)
-                      setLabScientists(data.data.labScientist, data.data.totalLabScientist)
-                      setAccountants(data.data.accountant, data.data.totalAccountant)
+                      setPatients(data.data.patient.data, data.data.totalPatient)
+                      setDoctors(Object.values(data.data.doctors), data.data.totalDoctor)
+                      setClerks(Object.values(data.data.clerk), data.data.totalClerk)
+                      setNurses(Object.values(data.data.nurses), data.data.totalNurses)
+                      setPharmasists(Object.values(data.data.pharmasist), data.data.totalPharmasist)
+                      setLabScientists(Object.values(data.data.labScientist), data.data.totalLabScientist)
+                      setAccountants(Object.values(data.data.accountant), data.data.totalAccountant)
 
 
                   })
@@ -480,6 +501,12 @@ function App() {
             <Route path="/admin" element={<AdminOverview />} />
             {/*<Route path="/admin" element={<AdminDashboard />} />*/}
             <Route path="/admin/staff" element={<StaffManagement />} />
+            <Route path="/admin/patient" element={<PatientManagement />} />
+            <Route path="/admin/editStaff" element={<StaffEdit />} />
+            <Route path="/admin/editPatient" element={<PatientEdit />} />
+            <Route path="/admin/drugs" element={<AdminDrugStock />} />
+            <Route path="/admin/labStock" element={<AdminLabStock />} />
+            <Route path="/admin/staffEnrollment" element={<StaffRegistration />} />
             <Route path="/admin/pnl" element={<AdminPnl />} />
             <Route path="/admin/departments" element={<AdminDashboard />} />
             <Route path="/admin/reports" element={<AdminDashboard />} />

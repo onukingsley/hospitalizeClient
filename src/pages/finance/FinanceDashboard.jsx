@@ -47,6 +47,8 @@ const FinanceDashboard = () => {
   const { purchases } = usePurchases();
   const { staff } = useStaff();
 
+  console.log(pendingPayment)
+
   //const totalRevenue = bills.filter(b => b.paymentStatus === 'paid').reduce((sum, b) => sum + b.amountPaid, 0);
   //const pendingRevenue = bills.filter(b => b.paymentStatus === 'pending').reduce((sum, b) => sum + b.balance, 0);
   const pendingRevenue = pendingPayment?.filter(b => b?.completion_status == 'pending').reduce((sum, b) => sum + parseInt(b.outStanding_balance), 0);

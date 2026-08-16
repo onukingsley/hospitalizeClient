@@ -789,6 +789,10 @@ export const adminUserManagement = create(
                 setPatients: (patients,totalPatients)=>{
                     set({patients: patients, totalPatients: totalPatients})
                 },
+                patient: [],
+                setPatient: (patients)=>{
+                    set({patient: patients})
+                },
                 doctors: [],
                 setDoctors: (data, totalDoctors)=>{
                     set({doctors: data, totalDoctors:totalDoctors})
@@ -879,6 +883,11 @@ export const adminUserManagement = create(
                 approvedStockRequest:[],
                 setApprovedAndPendingStockRequest: (pendingStockRequest,approvedStockRequest)=>{
                     set({pendingStockRequest:pendingStockRequest, approvedStockRequest:approvedStockRequest})
+                },
+                pendingLabStockRequest: [],
+                approvedLabStockRequest:[],
+                setApprovedAndPendingLabStockRequest: (pendingStockRequest,approvedStockRequest)=>{
+                    set({pendingLabStockRequest:pendingStockRequest, approvedLabStockRequest:approvedStockRequest})
                 },
 
 

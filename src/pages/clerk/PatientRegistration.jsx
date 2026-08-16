@@ -33,6 +33,7 @@ import {
 } from 'lucide-react';
 import axiosClient from "../../service/axiosClient.js";
 import {paymentStore} from "../../store/store.jsx";
+import {useNavigate} from "react-router-dom";
 
 const PatientRegistration = () => {
   
@@ -54,6 +55,8 @@ const PatientRegistration = () => {
   const [showQrModal, setShowQrModal] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const {rates} = paymentStore();
+
+  const navigate = useNavigate()
 
   const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -102,7 +105,6 @@ const PatientRegistration = () => {
 
     const payload = {
       address : formData.address,
-      allergies : JSON.stringify(formData.allergies),
       amount : selectedRate.amount,
       blood_group : formData.blood_group,
       dateOfBirth : formData.dateOfBirth,
@@ -121,12 +123,22 @@ const PatientRegistration = () => {
 
     }
 
-    console.log(payload)
+    if (formData?.allergies && formData?.allergies?.length >0){
+      payload['allergies'] = JSON.stringify(formData.allergies)
+    }
 
 
     axiosClient.post('/registerPatient',payload)
         .then(({data})=>{
           console.log(data)
+          if (data.message.includes('Successfully')){
+           alert(data.message)
+            navigate('/clerk')
+          }else {
+           /* setFormData({})*/
+            alert(data.message)
+          }
+
         }).catch(e=>console.log(e))
 
     const newPatient = formData

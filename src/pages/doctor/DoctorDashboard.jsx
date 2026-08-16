@@ -58,11 +58,11 @@ const DoctorDashboard = () => {
     dailyConsultation
   } = diagnosisStore();
 
-  const { patients } = adminUserManagement();
+  const { patient } = adminUserManagement();
   const { setSelectedPatient, setSelectedDiagnosis } = selectedStore();
 
   // Calculate stats
-  const totalPatients = patients?.length || 0;
+  const totalPatients = patient?.length || 0;
   const totalConsultations = consultations?.length || 0;
   const totalPending = pendingConsultation?.length || 0;
   const todayConsultations = dailyConsultation?.length || 0;
@@ -389,7 +389,7 @@ const DoctorDashboard = () => {
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {patients?.slice(0, 4).map(dx => (
+              {patient?.slice(0, 4).map(dx => (
                   <div
                       key={dx.id}
                       className="flex items-center justify-between p-3 rounded-xl border hover:bg-muted transition-all cursor-pointer group hover:border-primary/50"

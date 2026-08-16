@@ -32,6 +32,51 @@ export const GENDER_OPTIONS = [
   { value: 'other', label: 'Other' },
 ];
 
+export const DoctorLevel = [
+  { value: 'resident', label: 'Resident' },
+  { value: 'Senior Resident', label: 'senior resident' },
+  { value: 'House Officer', label: 'house officer' },
+  { value: 'Consultant', label: 'consultant' },
+  { value: 'Professor', label: 'professor' },
+];
+export const NURSE_LEVEL = [
+  { value: 'staff nurse', label: 'Staff Nurse' },
+  { value: 'charge nurse', label: 'Charge Nurse' },
+  { value: 'nurse manager', label: 'Nurse Manager' },
+  { value: 'director nurse', label: 'Director of Nursing' },
+  { value: 'chief nurse', label: 'Chief Nursing Officer' },
+];
+
+export const DoctorSpecialization = [
+  { value: 'dermatologist', label: 'Dermatologist' },
+  { value: 'neurologist', label: 'Neurologist' },
+  { value: 'oncologist', label: 'Oncologist' },
+  { value: 'gynaecologist', label: 'Gynaecologist' },
+  { value: 'dentist', label: 'Dentist' },
+  { value: 'pediatrics', label: 'pediatrics' },
+];
+export const PHARMASIST_SPECIALIZATION = [
+  { value: 'pharmacotherapy', label: 'pharmacotherapy' },
+  { value: 'oncology pharmacy', label: 'oncology pharmacy' },
+  { value: 'psychiatric pharmacy', label: 'psychiatric pharmacy' },
+  { value: 'pediatric ', label: 'pediatric ' },
+  { value: 'cardio pharmacy', label: 'cardio pharmacy' },
+];
+export const ACCOUNTANT_LEVEL = [
+  { value: 'junior accountant', label: 'junior Accountant' },
+  { value: 'senior accountant', label: 'Senior Accountant' },
+  { value: 'internal auditor', label: 'Internal Auditor' },
+
+];
+
+export const NURSE_DEPARTMENT = [
+  { value: 'ICU', label: 'ICU' },
+  { value: 'ER', label: 'ER' },
+  { value: 'NICU', label: 'NICU' },
+  { value: 'OR', label: 'OR' },
+
+];
+
 export const DOSAGE_FORMS = [
   { value: 'tablet', label: 'Tablet' },
   { value: 'capsule', label: 'Capsule' },
@@ -70,6 +115,14 @@ export const LEAVE_TYPES = [
   { value: 'paternity', label: 'Paternity Leave' },
   { value: 'compassionate', label: 'Compassionate Leave' },
   { value: 'other', label: 'Other' },
+];
+export const USER_ROLE = [
+  { value: 'doctor', label: 'Doctor' },
+  { value: 'nurse', label: 'Nurse' },
+  { value: 'accountant', label: 'Accountant' },
+  { value: 'pharmasist', label: 'Pharmasist' },
+  { value: 'labScientist', label: 'Lab Scientist' },
+  { value: 'clerk', label: 'Clerk' },
 ];
 
 export const PAYMENT_METHODS = [

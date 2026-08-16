@@ -23,7 +23,7 @@ const AllPatient  = () => {
     const navigate = useNavigate();
     const { diagnoses } = useDiagnoses();
     const { getPatientById } = usePatients();
-    const { patients } = adminUserManagement();
+    const { patient } = adminUserManagement();
     const { doctor } = userStore();
     const { inwardDiagnosis,outPatientDiagnosis,doctorsDiagnosis } = diagnosisStore();
     const [searchQuery, setSearchQuery] = useState('');
@@ -133,9 +133,9 @@ const AllPatient  = () => {
 
             <Tabs defaultValue="My Patient">
                 <TabsList>
-                    <TabsTrigger value="My Patient">My Patient ({patients?.length})</TabsTrigger>
+                    <TabsTrigger value="My Patient">My Patient ({patient?.length})</TabsTrigger>
                     </TabsList>
-                <TabsContent value="My Patient"><DiagnosisList items={searchPatient?.length>0 ? searchPatient : patients } /></TabsContent>
+                <TabsContent value="My Patient"><DiagnosisList items={searchPatient?.length>0 ? searchPatient : patient } /></TabsContent>
                 </Tabs>
 
             {/* Diagnosis Detail Dialog */}
